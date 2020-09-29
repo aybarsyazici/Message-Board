@@ -7,7 +7,7 @@ const schema = Joi.object().keys({
     message: Joi.string().max(500).required(),
     imageURL: Joi.string().uri({
         scheme: [
-            '/https?/'
+            /https?/
         ]
     })
 });
@@ -21,6 +21,7 @@ function getAll() {
 create = message => {
     try
     {
+        if(!message.username) message.username = "Anonymous";
         Joi.assert(message, schema);
         message.create = new Date();
         return messages.insert(message);
